@@ -20,9 +20,17 @@ jobs:
       - run: bun run check
       - run: bunx vsce package --no-dependencies --out stint.vsix
       - name: Visual Studio Marketplace
-        run: bunx vsce publish --packagePath stint.vsix --pat "${{ secrets.VSCE_PAT }}"
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: |
+          test -n "$VSCE_PAT" || { echo "VSCE_PAT is not set"; exit 1; }
+          bunx vsce publish --packagePath stint.vsix --pat "$VSCE_PAT" < /dev/null
       - name: Open VSX
-        run: bunx ovsx publish stint.vsix --pat "${{ secrets.OVSX_PAT }}"
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        run: |
+          test -n "$OVSX_PAT" || { echo "OVSX_PAT is not set"; exit 1; }
+          bunx ovsx publish stint.vsix --pat "$OVSX_PAT" < /dev/null
       - name: GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
