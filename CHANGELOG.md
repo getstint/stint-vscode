@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+- README badges that render again.
+
 ## 0.1.1
 
 - Fix: Stint commands no longer wait on the welcome message, so Sign in works right away instead of hanging on “Activating extension”.

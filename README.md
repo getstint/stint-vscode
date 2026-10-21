@@ -1,7 +1,7 @@
 # Stint for VS Code
 
-[![VS Code Marketplace](https://img.shields.io/visual-studio-marketplace/v/getstint.stint?label=VS%20Code%20Marketplace&color=007ACC)](https://marketplace.visualstudio.com/items?itemName=getstint.stint)
-[![Installs](https://img.shields.io/visual-studio-marketplace/i/getstint.stint)](https://marketplace.visualstudio.com/items?itemName=getstint.stint)
+[![VS Code Marketplace](https://img.shields.io/badge/VS%20Code-Marketplace-007ACC?logo=visualstudiocode&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=getstint.stint)
+[![License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/getstint/stint-vscode/blob/main/LICENSE)
 
 Free coding time tracking for VS Code, Cursor, Windsurf, VSCodium and every other VS Code fork. See where your hours go by project, language, branch and editor, next to what your AI agents did, on [getstint.dev](https://getstint.dev). No paid tier.
 
