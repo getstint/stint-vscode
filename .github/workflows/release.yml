@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: marketplaces
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - name: Check the tag matches package.json
+        run: test "v$(node -p "require('./package.json').version")" = "${GITHUB_REF_NAME}"
+      - run: bun run check
+      - run: bunx vsce package --no-dependencies --out stint.vsix
+      - name: Visual Studio Marketplace
+        run: bunx vsce publish --packagePath stint.vsix --pat "${{ secrets.VSCE_PAT }}"
+      - name: Open VSX
+        run: bunx ovsx publish stint.vsix --pat "${{ secrets.OVSX_PAT }}"
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" stint.vsix --title "${GITHUB_REF_NAME}" --generate-notes --verify-tag

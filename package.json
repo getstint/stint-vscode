@@ -1,0 +1,136 @@
+{
+  "name": "stint",
+  "displayName": "Stint",
+  "description": "Free coding time tracking: see where your hours go by project, language and branch, next to what your AI agents do. No paid tier.",
+  "version": "0.1.0",
+  "publisher": "getstint",
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "homepage": "https://getstint.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/getstint/stint-vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/getstint/stint-vscode/issues"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "keywords": [
+    "time tracking",
+    "wakatime",
+    "productivity",
+    "metrics",
+    "coding time",
+    "stats",
+    "ai agents",
+    "claude code",
+    "cursor",
+    "windsurf"
+  ],
+  "galleryBanner": {
+    "color": "#060606",
+    "theme": "dark"
+  },
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "capabilities": {
+    "virtualWorkspaces": true,
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "stint.signIn",
+        "title": "Sign in",
+        "category": "Stint"
+      },
+      {
+        "command": "stint.signOut",
+        "title": "Sign out",
+        "category": "Stint"
+      },
+      {
+        "command": "stint.openDashboard",
+        "title": "Open dashboard",
+        "category": "Stint"
+      },
+      {
+        "command": "stint.connectAgents",
+        "title": "Track AI agents (Claude Code, Codex, Gemini CLI, OpenCode)",
+        "category": "Stint"
+      },
+      {
+        "command": "stint.showStatus",
+        "title": "Show status",
+        "category": "Stint"
+      },
+      {
+        "command": "stint.flush",
+        "title": "Send queued activity now",
+        "category": "Stint"
+      }
+    ],
+    "configuration": {
+      "title": "Stint",
+      "properties": {
+        "stint.apiUrl": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Stint server. Leave empty to use `https://getstint.dev` or whatever the Stint CLI is signed in to."
+        },
+        "stint.statusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show today's coding time in the status bar."
+        },
+        "stint.trackUntitled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Count time in untitled, unsaved editors."
+        },
+        "stint.excludePatterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "markdownDescription": "Glob patterns of files to never track, such as `**/secret/**`."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "bun scripts/build.ts",
+    "watch": "bun scripts/build.ts --watch",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "check": "bun run format:check && bun run typecheck && bun test && bun run build",
+    "package": "bun run check && vsce package --no-dependencies",
+    "vscode:prepublish": "bun run build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.22",
+    "@types/node": "^20.19.0",
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.6.0",
+    "ovsx": "^0.10.5",
+    "prettier": "3.6.2",
+    "typescript": "^5.9.3"
+  }
+}

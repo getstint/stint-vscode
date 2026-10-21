@@ -1,0 +1,27 @@
+name: Bug report
+description: The extension doesn't track, sign in or show time the way it should.
+title: "bug: "
+labels: ["bug", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: Please don't paste your API key. For security problems, use a private advisory (see SECURITY.md).
+  - type: input
+    id: editor
+    attributes:
+      label: Editor and version
+      placeholder: Cursor 1.7.0, VS Code 1.105.0, Windsurf …
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Stint output
+      description: View › Output, then pick "Stint" in the dropdown. Remove anything private first.
+      render: text
