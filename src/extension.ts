@@ -78,17 +78,24 @@ class Stint implements vscode.Disposable {
     command("stint.showStatus", () => this.showStatus());
     command("stint.flush", () => this.flush(true));
 
-    await this.refreshStatus();
+    this.setStatus(
+      this.key ? "$(clock) Stint" : "$(clock) Sign in to Stint",
+      "Stint",
+      this.key ? "stint.openDashboard" : "stint.signIn",
+    );
+    void this.refreshStatus();
     if (vscode.window.activeTextEditor) this.track(vscode.window.activeTextEditor.document, false);
-    if (!this.key && !this.context.globalState.get("stint.welcomed")) {
-      await this.context.globalState.update("stint.welcomed", true);
-      const choice = await vscode.window.showInformationMessage(
-        "Stint tracks your coding time. Sign in to start.",
-        "Sign in",
-        "Not now",
-      );
-      if (choice === "Sign in") await this.signIn();
-    }
+    if (!this.key && !this.context.globalState.get("stint.welcomed")) void this.welcome();
+  }
+
+  private async welcome() {
+    await this.context.globalState.update("stint.welcomed", true);
+    const choice = await vscode.window.showInformationMessage(
+      "Stint tracks your coding time. Sign in to start.",
+      "Sign in",
+      "Not now",
+    );
+    if (choice === "Sign in") await this.signIn();
   }
 
   private track(document: vscode.TextDocument, isWrite: boolean) {
@@ -217,15 +224,17 @@ class Stint implements vscode.Disposable {
         `${apiUrl}/device?user_code=${encodeURIComponent(device.user_code)}&client=${clientId}`,
       );
       await vscode.env.clipboard.writeText(code);
-      const choice = await vscode.window.showInformationMessage(
-        `Your Stint code is ${code} (copied). Approve it in the browser to connect this editor.`,
-        { modal: false },
-        "Open browser",
-        "Copy link",
-      );
-      if (choice === "Copy link") await vscode.env.clipboard.writeText(link.toString());
-      else if (choice === "Open browser") await vscode.env.openExternal(link);
-      else if (choice === undefined) return;
+      const opened = await vscode.env.openExternal(link);
+      void vscode.window
+        .showInformationMessage(
+          opened
+            ? `Approve code ${code} in your browser to connect this editor.`
+            : `Open ${link.toString()} and approve code ${code} to connect this editor.`,
+          "Copy link",
+        )
+        .then((choice) => {
+          if (choice === "Copy link") void vscode.env.clipboard.writeText(link.toString());
+        });
       const token = await vscode.window.withProgress(
         {
           location: vscode.ProgressLocation.Notification,

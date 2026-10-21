@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1
+
+- Fix: Stint commands no longer wait on the welcome message, so Sign in works right away instead of hanging on “Activating extension”.
+- Sign in opens the browser straight away and shows your code while it waits.
+- Marketplace links in the README.
+
 ## 0.1.0
 
 - Coding time by project, language, branch and editor, with the file path sent relative to the project.
