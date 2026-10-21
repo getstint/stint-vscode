@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { editorFromAppName, userAgent, type EditorId } from "./editor";
+import { editorFromAppName, installCommand, userAgent, type EditorId } from "./editor";
 import { isExcluded, projectForFile, relativeEntity } from "./project";
 import { shouldSend, type Last } from "./schedule";
 import {
@@ -320,7 +320,7 @@ class Stint implements vscode.Disposable {
   private connectAgents() {
     const terminal = vscode.window.createTerminal({ name: "Stint" });
     terminal.show();
-    terminal.sendText("npx --yes getstint@latest install");
+    terminal.sendText(installCommand(process.platform));
   }
 
   private async showStatus() {

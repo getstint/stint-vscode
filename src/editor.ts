@@ -19,3 +19,6 @@ export function editorFromAppName(appName: string): EditorId {
 
 export const userAgent = (editor: EditorId, editorVersion: string, extensionVersion: string) =>
   `stint-vscode/${extensionVersion} (${process.platform}-${process.arch}) ${editor}/${editorVersion} vscode-stint/${extensionVersion}`;
+
+export const installCommand = (platform: NodeJS.Platform) =>
+  `${platform === "win32" ? "npx.cmd" : "npx"} --yes getstint@latest install`;

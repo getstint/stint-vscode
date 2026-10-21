@@ -2,7 +2,7 @@
   "name": "stint",
   "displayName": "Stint",
   "description": "Free coding time tracking: see where your hours go by project, language and branch, next to what your AI agents do. No paid tier.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "getstint",
   "license": "MIT",
   "icon": "images/icon.png",

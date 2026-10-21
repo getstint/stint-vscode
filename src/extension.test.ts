@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { EditorId, editorFromAppName, userAgent } from "./editor";
+import { EditorId, editorFromAppName, installCommand, userAgent } from "./editor";
 import { isExcluded, projectForFile, relativeEntity } from "./project";
 import { sameFileEveryMs, shouldSend } from "./schedule";
 
@@ -60,5 +60,12 @@ describe("projects and paths", () => {
     expect(isExcluded("/w/app/secret/keys.ts", ["**/secret/**"])).toBe(true);
     expect(isExcluded("/w/app/.env", ["**/.env"])).toBe(true);
     expect(isExcluded("/w/app/src/a.ts", ["**/secret/**"])).toBe(false);
+  });
+});
+
+describe("track agents command", () => {
+  test("uses npx.cmd on Windows so PowerShell's script policy can't block it", () => {
+    expect(installCommand("win32")).toBe("npx.cmd --yes getstint@latest install");
+    expect(installCommand("darwin")).toBe("npx --yes getstint@latest install");
   });
 });

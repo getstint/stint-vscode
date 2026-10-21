@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- Track AI agents runs `npx.cmd` on Windows, so it works in PowerShell even when running scripts is disabled.
+
 ## 0.1.2
 
 - README badges that render again.
