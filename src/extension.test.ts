@@ -3,7 +3,7 @@ import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { EditorId, editorFromAppName, installCommand, userAgent } from "./editor";
-import { isExcluded, projectForFile, relativeEntity } from "./project";
+import { extensionEntity, isExcluded, projectForFile, relativeEntity } from "./project";
 import { sameFileEveryMs, shouldSend } from "./schedule";
 
 describe("editor detection", () => {
@@ -54,6 +54,8 @@ describe("projects and paths", () => {
   test("paths are sent relative to the project and never outside it", () => {
     expect(relativeEntity(join(root, "repo", "src", "a.ts"), join(root, "repo"))).toBe("src/a.ts");
     expect(relativeEntity(join(root, "elsewhere.ts"), join(root, "repo"))).toBeNull();
+    expect(extensionEntity("src/lib/App.TSX")).toBe("*.tsx");
+    expect(extensionEntity("Makefile")).toBe("*");
   });
 
   test("exclude patterns", () => {

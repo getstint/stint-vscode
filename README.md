@@ -21,8 +21,8 @@ Run **Stint: Track AI agents** to connect Claude Code, Codex CLI, Gemini CLI and
 
 ## What it sends
 
-- **Sent:** timestamps, the project (the git repository's folder name, or the workspace name), branch, language, the file path relative to the project, whether you saved, the editor name and the line count.
-- **Never sent:** file contents, selections, keystrokes, terminal output, or any path outside the project.
+- **Sent:** timestamps, the project (the git repository's folder name, or the workspace name), branch, language, the file extension (`*.ts`), whether you saved, the editor name and the line count.
+- **Never sent:** file contents, selections, keystrokes, terminal output, file names or paths.
 
 Files matching `stint.excludePatterns` are never tracked. Untitled editors are skipped unless you turn on `stint.trackUntitled`.
 

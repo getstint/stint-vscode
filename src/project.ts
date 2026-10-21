@@ -49,6 +49,12 @@ export function relativeEntity(file: string, root: string): string | null {
   return inside.replace(/\\/g, "/");
 }
 
+export function extensionEntity(file: string): string {
+  const name = basename(file);
+  const dot = name.lastIndexOf(".");
+  return dot > 0 ? `*${name.slice(dot).toLowerCase()}` : "*";
+}
+
 export function globToRegExp(glob: string): RegExp {
   let pattern = "";
   for (let index = 0; index < glob.length; index += 1) {

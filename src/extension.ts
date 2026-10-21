@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { editorFromAppName, installCommand, userAgent, type EditorId } from "./editor";
-import { isExcluded, projectForFile, relativeEntity } from "./project";
+import { extensionEntity, isExcluded, projectForFile, relativeEntity } from "./project";
 import { shouldSend, type Last } from "./schedule";
 import {
   claimQueue,
@@ -110,7 +110,7 @@ class Stint implements vscode.Disposable {
     const project = scheme === "file" ? projectForFile(path, folder) : null;
     const entity = project ? relativeEntity(path, project.root) : null;
     const heartbeat: Heartbeat = {
-      entity: entity ?? `${this.editor}:${document.languageId}`,
+      entity: entity ? extensionEntity(entity) : `${this.editor}:${document.languageId}`,
       type: entity ? "file" : "app",
       category: "coding",
       time: Date.now() / 1000,
@@ -122,8 +122,9 @@ class Stint implements vscode.Disposable {
       machine: machineName(),
       lines: document.lineCount,
     };
-    if (!shouldSend(this.last, heartbeat.entity, Date.now(), isWrite)) return;
-    this.last = { entity: heartbeat.entity, at: Date.now() };
+    const local = entity ?? heartbeat.entity;
+    if (!shouldSend(this.last, local, Date.now(), isWrite)) return;
+    this.last = { entity: local, at: Date.now() };
     this.pending.push(heartbeat);
     if (isWrite && this.pending.length >= 20) void this.flush();
   }
