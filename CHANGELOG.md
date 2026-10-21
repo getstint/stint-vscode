@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.5
+
+- First release under the verified `getstint` namespace on Open VSX, for Cursor, Windsurf, VSCodium, Kiro and Trae.
+
 ## 0.1.4
 
 - Heartbeats send only the file extension (`*.ts`), never the file name or path.
